@@ -13,10 +13,16 @@ start_router = Router()
 async def send_welcome(message: types.Message):
     await message.reply("Привет! Я ишак. Напиши мне что-нибудь, и я повторю.")
 
+# Обработчик команды /help
+@start_router.message(filters.Command("help"))
+async def send_help(message: types.Message):
+    help_text = "Доступные команды:\n/start - Начать общение\n/help - Помощь"
+    await message.reply(help_text)
+
 # Обработчик текстовых сообщений
 @start_router.message(F.text)
 async def echo(message: types.Message):
-    await message.answer(message.text)
+    await message.answer(f'вы сказали: {message.text}')
 
 async def main():
     dp.include_router(start_router)
